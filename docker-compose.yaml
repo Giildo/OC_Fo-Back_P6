@@ -3,7 +3,7 @@ version: "3.6"
 services:
   # Core configuration
   php-fpm:
-    container_name: ${CONTAINER_NAME}_php-fpm
+    container_name: ${CONTAINER_NAME}_php
     build:
       args:
         WORKFOLDER: "${WORKFOLDER}"
@@ -16,7 +16,13 @@ services:
       - './docker/php/conf/php.ini:/usr/local/etc/php/php.ini'
       # - './docker/php/conf/production/php.ini:/usr/local/etc/php/php.ini' -> Used for production.
     labels:
-      - 'traefik.enable=false'
+      - 'traefik.enable=true'
+      - 'traefik.docker.network=web'
+      - 'traefik.http.routers.home.rule=Host(`${CONTAINER_NAME}-php.jojotique.fr`)'
+      - 'traefik.http.routers.home.entrypoints=websecure,web'
+      - 'traefik.http.routers.home.tls=true'
+      - 'traefik.http.routers.home.tls.certresolver=jojotique'
+      - 'traefik.http.services.home.loadbalancer.server.port=${PHP_PORT}'
     networks:
       - web
 
@@ -36,7 +42,7 @@ services:
     labels:
       - 'traefik.enable=true'
       - 'traefik.docker.network=web'
-      - 'traefik.http.routers.home.rule=Host(`${CONTAINER_NAME}.jojotique.fr`)'
+      - 'traefik.http.routers.home.rule=Host(`${CONTAINER_NAME}-nginx.jojotique.fr`)'
       - 'traefik.http.routers.home.entrypoints=websecure,web'
       - 'traefik.http.routers.home.tls=true'
       - 'traefik.http.routers.home.tls.certresolver=jojotique'
@@ -57,7 +63,13 @@ services:
     volumes:
       - 'db-data-thip6:/var/lib/postgresql/data:rw'
     labels:
-      - 'traefik.enable=false'
+      - 'traefik.enable=true'
+      - 'traefik.docker.network=web'
+      - 'traefik.http.routers.home.rule=Host(`${CONTAINER_NAME}-postgresql.jojotique.fr`)'
+      - 'traefik.http.routers.home.entrypoints=websecure,web'
+      - 'traefik.http.routers.home.tls=true'
+      - 'traefik.http.routers.home.tls.certresolver=jojotique'
+      - 'traefik.http.services.home.loadbalancer.server.port=${POSTGRES_PORT}'
     networks:
       - web
 
