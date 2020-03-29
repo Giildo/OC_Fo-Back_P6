@@ -17,6 +17,8 @@ services:
       # - './docker/php/conf/production/php.ini:/usr/local/etc/php/php.ini' -> Used for production.
     labels:
       - 'traefik.enable=false'
+    networks:
+      - web
 
   nginx:
     container_name: ${CONTAINER_NAME}_nginx
@@ -33,11 +35,13 @@ services:
       - './docker/nginx/logs/:/var/log/nginx'
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.home.rule=Host:${CONTAINER_NAME}.jojotique.fr'
+      - 'traefik.http.routers.home.rule=Host:thip6.jojotique.fr'
       - 'traefik.http.routers.home.entrypoints=https,http'
       - 'traefik.http.routers.home.tls=true'
       - 'traefik.http.routers.home.tls.certresolver=jojotique'
       - 'traefik.http.services.home.loadbalancer.server.port=${PHP_PORT}'
+    networks:
+      - web
 
   # DB configuration
   postgresql:
@@ -53,6 +57,12 @@ services:
       - 'db-data-thip6:/var/lib/postgresql/data:rw'
     labels:
       - 'traefik.enable=false'
+    networks:
+      - web
 
 volumes:
   db-data-thip6: {}
+
+networks:
+  web:
+    external: {}
