@@ -35,6 +35,7 @@ services:
       - './docker/nginx/logs/:/var/log/nginx'
     labels:
       - 'traefik.enable=true'
+      - 'traefik.port=${NGINX_PORT}'
       - 'traefik.docker.network=web'
       - 'traefik.http.routers.home.rule=Host(`${CONTAINER_NAME}.jojotique.fr`)'
       - 'traefik.http.routers.home.entrypoints=websecure,web'
