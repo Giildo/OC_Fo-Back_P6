@@ -35,7 +35,7 @@ services:
       - './docker/nginx/logs/:/var/log/nginx'
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.home.rule=Host:thip6.jojotique.fr'
+      - 'traefik.http.routers.home.rule=Host(`${CONTAINER_NAME}.jojotique.fr`)'
       - 'traefik.http.routers.home.entrypoints=websecure,web'
       - 'traefik.http.routers.home.tls=true'
       - 'traefik.http.routers.home.tls.certresolver=jojotique'
