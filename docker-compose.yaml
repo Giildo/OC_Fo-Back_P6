@@ -18,10 +18,6 @@ services:
     labels:
       - 'traefik.enable=true'
       - 'traefik.docker.network=web'
-      - 'traefik.http.routers.home.rule=Host(`${CONTAINER_NAME}-php.jojotique.fr`)'
-      - 'traefik.http.routers.home.entrypoints=websecure,web'
-      - 'traefik.http.routers.home.tls=true'
-      - 'traefik.http.routers.home.tls.certresolver=jojotique'
       - 'traefik.http.services.home.loadbalancer.server.port=${PHP_PORT}'
     networks:
       - web
@@ -42,7 +38,7 @@ services:
     labels:
       - 'traefik.enable=true'
       - 'traefik.docker.network=web'
-      - 'traefik.http.routers.home.rule=Host(`${CONTAINER_NAME}-nginx.jojotique.fr`)'
+      - 'traefik.http.routers.home.rule=Host(`${CONTAINER_NAME}.jojotique.fr`)'
       - 'traefik.http.routers.home.entrypoints=websecure,web'
       - 'traefik.http.routers.home.tls=true'
       - 'traefik.http.routers.home.tls.certresolver=jojotique'
@@ -65,10 +61,6 @@ services:
     labels:
       - 'traefik.enable=true'
       - 'traefik.docker.network=web'
-      - 'traefik.http.routers.home.rule=Host(`${CONTAINER_NAME}-postgresql.jojotique.fr`)'
-      - 'traefik.http.routers.home.entrypoints=websecure,web'
-      - 'traefik.http.routers.home.tls=true'
-      - 'traefik.http.routers.home.tls.certresolver=jojotique'
       - 'traefik.http.services.home.loadbalancer.server.port=${POSTGRES_PORT}'
     networks:
       - web
