@@ -18,7 +18,7 @@ services:
     labels:
       - 'traefik.enable=true'
       - 'traefik.docker.network=web'
-      - 'traefik.http.services.home.loadbalancer.server.port=${PHP_PORT}'
+      - 'traefik.port=${PHP_PORT}'
     networks:
       - web
 
@@ -42,7 +42,7 @@ services:
       - 'traefik.http.routers.home.entrypoints=websecure,web'
       - 'traefik.http.routers.home.tls=true'
       - 'traefik.http.routers.home.tls.certresolver=jojotique'
-      - 'traefik.http.services.home.loadbalancer.server.port=${NGINX_PORT}'
+      - 'traefik.port=${NGINX_PORT}'
     networks:
       - web
 
@@ -61,7 +61,7 @@ services:
     labels:
       - 'traefik.enable=true'
       - 'traefik.docker.network=web'
-      - 'traefik.http.services.home.loadbalancer.server.port=${POSTGRES_PORT}'
+      - 'traefik.port=${POSTGRES_PORT}'
     networks:
       - web
 
